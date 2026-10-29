@@ -1,0 +1,6 @@
+[project]
+name = "ppg-watch-firmware"
+version = "0.1.0"
+description = "PPG Watch firmware build environment (PlatformIO)"
+requires-python = ">=3.11"
+dependencies = ["platformio>=6.1.16", "pyserial>=3.5"]

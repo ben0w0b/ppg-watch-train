@@ -1,0 +1,21 @@
+name: watch_tool
+description: "PPG Watch 工具:用藍牙連自製壓力手錶,同步時間、調整壓力判定線、看狀態 (Android)。"
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_blue_plus: ^1.35.3
+  permission_handler: ^11.3.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
