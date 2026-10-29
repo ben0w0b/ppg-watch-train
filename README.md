@@ -1,11 +1,16 @@
-# PPG Watch — 自製 PPG 壓力手錶韌體與雙端設定工具
+# PPG Watch — 自製 PPG 壓力手錶韌體與 Android 設定工具
 
 自製手錶（Waveshare ESP32-S3-Touch-LCD-1.28 ＋ SparkFun MAX30101／MAX32664 感測器）的韌體，加上一支 Android 設定工具 app：用藍牙連上手錶、**同步時間**、**調整壓力判定線**、看目前的判定狀態。
 
 這份 repo 是 2026-10-29 從研究用的主專案抽出來的「目前燒在手錶上的版本」，之後獨立維護。
 
+## 直接使用（不用自己編）
+- **Android 設定工具**：下載 [`releases/ppg_watch_tool-v0.1.0.apk`](releases/ppg_watch_tool-v0.1.0.apk)（46.5 MB，Android 7.0 以上），傳到手機點開安裝（第一次要允許「安裝未知來源的應用程式」），然後照第三節的使用步驟操作。
+  SHA-256：`76ccb4ddba7c48f44a411225b8b0495586b7bdfc6319f360bd1ed8aa0007e46c`
+- **手錶韌體**：要自己編譯燒錄，見第二節（手錶是自製的，沒有現成的機器可以直接拿）。
 ```
 ppg-watch/
+├── releases/        編好的 Android APK(直接安裝)
 ├── .github/workflows/build-app.yml   GitHub Actions:push 後自動編 Android APK
 ├── firmware/        PlatformIO 專案(ESP32-S3,Arduino 3.x / ESP-IDF 5.x hybrid)
 │   ├── src/         main.cpp 與所有標頭(處理鏈、tiny CNN、活動辨識、BLE、顯示、電源)
@@ -107,14 +112,16 @@ push 到 GitHub 後,`.github/workflows/build-app.yml` 會在 Ubuntu 機器自動
 
 ---
 
+
 ## 四、放到 GitHub
 ```bash
 cd ppg-watch
-git init && git add . && git commit -m "PPG Watch firmware + setting tool"
+git init && git add . && git commit -m "PPG Watch firmware + Android setting tool"
 git remote add origin git@github.com:<你的帳號>/ppg-watch.git
 git push -u origin main
 ```
 `.gitignore` 已排除 PlatformIO 的 `.pio/`、`managed_components/`(建置時自動下載)與 Flutter 的 `build/`、`.dart_tool/`、`android/local.properties`。模型標頭(`firmware/tools/*.h`、`src/cnn_model.h`)是訓練腳本的產物,直接進版控;訓練腳本與資料集不在這份 repo。
+`releases/` 裡的 APK(46.5 MB)直接進版控,在 GitHub 單檔 100 MB 的限制內;之後每出一版都放一個新檔的話 repo 會越來越大,建議改用 GitHub 的 Releases 頁面上傳附件、repo 只留最新一版。push 之後 Actions 也會自動編一份 APK 放在每次執行的 Artifacts。
 
 ## 五、授權
 尚未指定。放上 GitHub 前請選一個(研究用常見 MIT 或 Apache-2.0),並確認第三方函式庫(SparkFun Bio Sensor Hub、LovyanGFX、NimBLE-Arduino、flutter_blue_plus、permission_handler)的授權相容。
